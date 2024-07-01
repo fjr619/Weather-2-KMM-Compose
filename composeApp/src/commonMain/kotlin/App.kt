@@ -19,6 +19,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
+import presentation.route.Route
 import presentation.theme.AppTheme
 import presentation.ui.root.RootScreen
 import weathercmp.composeapp.generated.resources.Res
@@ -34,18 +35,7 @@ fun App(
         darkTheme = darkTheme,
         dynamicColor = dynamicColor
     ) {
-        val navController = rememberNavController()
-
-        NavHost(
-            navController,
-            startDestination = "root"
-        ) {
-            composable(route = "root") {
-                RootScreen()
-            }
-        }
-
-
+        RootScreen()
     }
 
 }

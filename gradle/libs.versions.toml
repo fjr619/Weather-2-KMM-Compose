@@ -20,6 +20,7 @@ navigation-compose = "2.8.0-alpha02"
 ktor = "2.3.8"
 kotlinx-serialization-json = "1.6.3"
 lifecycle = "2.8.0"
+moko-permission = "0.18.0"
 
 [libraries]
 kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
@@ -53,6 +54,7 @@ lifecycle-viewmodel-compose = { module = "org.jetbrains.androidx.lifecycle:lifec
 lifecycle-runtime-compose = { module = "org.jetbrains.androidx.lifecycle:lifecycle-runtime-compose", version.ref = "lifecycle" }
 navigation-compose = { module = "org.jetbrains.androidx.navigation:navigation-compose", version.ref = "navigation-compose" }
 
+moko-permission = { module = "dev.icerock.moko:permissions-compose", version.ref = "moko-permission" }
 
 [bundles]
 ktor = [
