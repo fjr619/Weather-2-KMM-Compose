@@ -21,6 +21,7 @@ ktor = "2.3.8"
 kotlinx-serialization-json = "1.6.3"
 lifecycle = "2.8.0"
 moko-permission = "0.18.0"
+play-services-location = "21.1.0"
 
 [libraries]
 kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
@@ -55,6 +56,8 @@ lifecycle-runtime-compose = { module = "org.jetbrains.androidx.lifecycle:lifecyc
 navigation-compose = { module = "org.jetbrains.androidx.navigation:navigation-compose", version.ref = "navigation-compose" }
 
 moko-permission = { module = "dev.icerock.moko:permissions-compose", version.ref = "moko-permission" }
+
+play-services-location = { module = "com.google.android.gms:play-services-location", version.ref = "play-services-location" }
 
 [bundles]
 ktor = [

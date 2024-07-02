@@ -62,6 +62,7 @@ kotlin {
             implementation(libs.lifecycle.runtime.compose)
 
             implementation(libs.moko.permission)
+            implementation(libs.play.services.location)
         }
 
         iosMain.dependencies {

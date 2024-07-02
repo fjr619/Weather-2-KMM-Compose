@@ -25,8 +25,10 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import dev.icerock.moko.permissions.PermissionState
 import dev.icerock.moko.permissions.compose.BindEffect
+import dev.icerock.moko.permissions.compose.PermissionsControllerFactory
 import dev.icerock.moko.permissions.compose.rememberPermissionsControllerFactory
 import org.jetbrains.compose.resources.stringResource
+import org.koin.compose.viewmodel.koinViewModel
 import org.koin.core.annotation.KoinExperimentalAPI
 import presentation.route.MaterialNavRoute
 
@@ -34,16 +36,8 @@ import presentation.route.MaterialNavRoute
 @Composable
 fun RootScreen(modifier: Modifier = Modifier) {
     val navController = rememberNavController()
-    val permissionFactory = rememberPermissionsControllerFactory()
-    val permissionsController =
-        remember(permissionFactory) { permissionFactory.createPermissionsController() }
-    val lifecycleOwner = LocalLifecycleOwner.current
-    val lifecycleState by lifecycleOwner.lifecycle.currentStateFlow.collectAsStateWithLifecycle()
-    val rootViewModel = viewModel {
-        RootViewModel(
-            permissionsController = permissionsController,
-        )
-    }
+
+    val rootViewModel = koinViewModel<RootViewModel>()
     val permissionState by rootViewModel.permissionState.collectAsStateWithLifecycle()
     val permissionGranted by rootViewModel.permissionGranted.collectAsStateWithLifecycle()
 
@@ -53,6 +47,8 @@ fun RootScreen(modifier: Modifier = Modifier) {
         MaterialNavRoute.Daily,
     )
 
+    BindEffect(rootViewModel.permissionsController)
+
     LaunchedEffect(Unit) {
         rootViewModel.requestPermission()
     }
@@ -61,10 +57,6 @@ fun RootScreen(modifier: Modifier = Modifier) {
         rootViewModel.checkPermissionStatus()
         onPauseOrDispose {  }
     }
-
-    BindEffect(permissionsController)
-
-    println("permissionState $permissionState")
 
     if (!permissionGranted && permissionState == PermissionState.DeniedAlways) {
         Column {
@@ -79,6 +71,7 @@ fun RootScreen(modifier: Modifier = Modifier) {
         }
     } else {
         Scaffold(
+            modifier = modifier,
             bottomBar = {
                 NavigationBar {
                     val navBackStackEntry by navController.currentBackStackEntryAsState()
