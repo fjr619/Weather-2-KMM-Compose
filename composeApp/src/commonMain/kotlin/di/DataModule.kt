@@ -1,5 +1,7 @@
 package di
 
+import data.remote.RemoteDataSource
+import data.remote.RemoteDataSourceImpl
 import data.remote.createHttpClient
 import data.remote.httpClientEngine
 import data.repository.LocationRepositoryImpl
@@ -12,5 +14,5 @@ val dataModule = module{
     factory<LocationRepository> { LocationRepositoryImpl(get()) }
     single<HttpClientEngine> { httpClientEngine() }
     single<HttpClient> { createHttpClient(get()) }
-
+    single<RemoteDataSource> { RemoteDataSourceImpl(get()) }
 }

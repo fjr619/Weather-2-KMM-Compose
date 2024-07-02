@@ -4,9 +4,9 @@ import io.ktor.resources.Resource
 import kotlinx.serialization.SerialName
 
 @Resource("forecast")
-class RequestForecast(
-    @SerialName("latitude") val latitude: Float,
-    @SerialName("longitude") val longitude: Float,
+class ForecastRequest(
+    @SerialName("latitude") val latitude: Double,
+    @SerialName("longitude") val longitude: Double,
     @SerialName("daily") val daily: Array<String> = arrayOf(
         "weather_code",
         "temperature_2m_max",
