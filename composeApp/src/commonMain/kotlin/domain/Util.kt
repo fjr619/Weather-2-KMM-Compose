@@ -1,10 +1,13 @@
 package domain
 
+import androidx.compose.ui.unit.IntSize
 import domain.model.forecast.WeatherInfoItem
+import kotlinx.datetime.Clock
 import kotlinx.datetime.Instant
 import kotlinx.datetime.LocalDateTime
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toLocalDateTime
+import kotlinx.datetime.todayIn
 import weathercmp.composeapp.generated.resources.Res
 import weathercmp.composeapp.generated.resources.clear_sky
 import weathercmp.composeapp.generated.resources.drizzle
@@ -71,5 +74,10 @@ object Util {
             95, 96, 99 -> WeatherInfoItem("Thunderstorm: Slight", Res.drawable.thunder_storm)
             else -> WeatherInfoItem("Unknown", Res.drawable.clear_sky)
         }
+    }
+
+    fun isTodayDate(day: String): Boolean {
+        val todayDate = formatUnixDate("E", Clock.System.now().epochSeconds)
+        return todayDate.lowercase() == day.lowercase()
     }
 }

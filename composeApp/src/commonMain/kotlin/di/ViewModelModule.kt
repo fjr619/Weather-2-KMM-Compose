@@ -9,7 +9,8 @@ val viewModelModule = module {
     viewModel {
         RootViewModel(
             permissionsController = get(),
-            locationRepository = get()
+            locationRepository = get(),
+            forecastRepository = get()
         )
     }
 }
