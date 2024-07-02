@@ -1,7 +1,7 @@
 package data.remote
 
-import data.remote.model.request.ForecastRequest
-import data.remote.model.response.forecast.ForecastResponse
+import data.remote.request.ForecastRequest
+import data.remote.response.forecast.ForecastResponse
 import domain.model.location.DeviceLocation
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body

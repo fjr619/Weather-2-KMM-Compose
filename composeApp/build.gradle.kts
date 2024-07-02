@@ -57,6 +57,7 @@ kotlin {
 
             implementation(libs.bundles.ktor)
             implementation(libs.kotlinx.serialization.json)
+            implementation(libs.kotlinx.datetime)
 
             implementation(libs.lifecycle.viewmodel.compose)
             implementation(libs.lifecycle.runtime.compose)
@@ -97,6 +98,7 @@ android {
         }
     }
     compileOptions {
+        isCoreLibraryDesugaringEnabled = true
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
     }
@@ -106,6 +108,7 @@ android {
     }
     dependencies {
         debugImplementation(compose.uiTooling)
+        coreLibraryDesugaring(libs.desugar.jdk.libs)
     }
 }
 

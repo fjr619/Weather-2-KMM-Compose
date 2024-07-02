@@ -1,4 +1,4 @@
-package data.remote.model.response.failed
+package data.remote.response.failed
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable

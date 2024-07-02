@@ -1,4 +1,4 @@
-package data.remote.model.response.forecast
+package data.remote.response.forecast
 
 import data.model.CurrentUnits
 import data.model.CurrentWeather

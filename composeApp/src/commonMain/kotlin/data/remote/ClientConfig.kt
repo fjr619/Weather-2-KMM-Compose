@@ -1,7 +1,7 @@
 package data.remote
 
-import data.isDebug
-import data.remote.model.response.failed.FailedResponse
+import domain.isDebug
+import data.remote.response.failed.FailedResponse
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
 import io.ktor.client.engine.HttpClientEngine
@@ -50,7 +50,7 @@ fun createHttpClient(httpClientEngine: HttpClientEngine) = HttpClient(httpClient
             when(exception) {
                 is ResponseException -> {
                     val responseException = exception.response.body<FailedResponse>()
-                    throw data.remote.model.response.failed.ResponseException(
+                    throw data.remote.response.failed.ResponseException(
                         message = responseException.reason
                     )
                 }

@@ -1,4 +1,4 @@
-package data.remote.model.request
+package data.remote.request
 
 import io.ktor.resources.Resource
 import kotlinx.serialization.SerialName
@@ -28,6 +28,7 @@ class ForecastRequest(
         "weather_code",
         "temperature_2m",
     ),
+    @SerialName("timeformat") val timeformat: String = "unixtime",
     @SerialName("timezone") val timezone: String = "auto"
 
 )
