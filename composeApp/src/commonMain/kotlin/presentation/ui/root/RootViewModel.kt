@@ -21,36 +21,69 @@ class RootViewModel(
     private val locationRepository: LocationRepository,
     private val forecastRepository: ForecastRepository
 ) : ViewModel() {
-    private val _permissionState = MutableStateFlow(PermissionState.NotDetermined)
-    val permissionState = _permissionState.asStateFlow()
+//    private val _permissionState = MutableStateFlow(PermissionState.NotDetermined)
+//    val permissionState = _permissionState.asStateFlow()
 
-    private val _permissionGranted = MutableStateFlow(false)
-    val permissionGranted = _permissionGranted.asStateFlow()
+//    private val _permissionGranted = MutableStateFlow(false)
+//    val permissionGranted = _permissionGranted.asStateFlow()
+
+    private val _rootState = MutableStateFlow(RootState())
+    val rootState = _rootState.asStateFlow()
 
     private val permissionLocation = Permission.LOCATION
 
-    fun checkPermissionStatus() {
+    fun onEvent(event: RootEvent) {
+        when (event) {
+            is RootEvent.onRequestPermission -> requestPermission()
+            is RootEvent.onCheckPermission -> checkPermissionStatus()
+        }
+    }
+
+    private fun checkPermissionStatus() {
         viewModelScope.launch {
-            _permissionGranted.update {
-                permissionsController.isPermissionGranted(permissionLocation)
-            }
+            _rootState.updatePermissionGranted(
+                permissionsController.isPermissionGranted(
+                    permissionLocation
+                )
+            )
+//            _permissionGranted.update {
+//                permissionsController.isPermissionGranted(permissionLocation)
+//            }
 
             if (permissionsController.isPermissionGranted(permissionLocation)) {
                 println("location = ${locationRepository.getCurrentLocation()}")
                 //EXAMPLE TO USE REPOSITORY
+                _rootState.update {
+                    it.copy(
+                        isLoading = true,
+                    )
+                }
                 forecastRepository.getForecastWeather(locationRepository.getCurrentLocation())
                     .collect { response ->
                         when (response) {
                             is Response.Success -> {
+                                //TODO setup to ui
                                 val todayDailWeatherInfo = response.data.daily.weatherInfo.find {
                                     Util.isTodayDate(it.time)
                                 }
 
                                 println("success ${todayDailWeatherInfo}")
+                                _rootState.update {
+                                    it.copy(
+                                        isLoading = false,
+                                    )
+                                }
                             }
 
                             is Response.Error -> {
                                 println("error")
+                                _rootState.update {
+                                    it.copy(
+                                        isLoading = false,
+                                        isError = true,
+                                        error = response.message
+                                    )
+                                }
                             }
                         }
                     }
@@ -58,17 +91,19 @@ class RootViewModel(
         }
     }
 
-    fun requestPermission() {
+    private fun requestPermission() {
         viewModelScope.launch {
             try {
-                println("aaaa")
                 permissionsController.providePermission(permissionLocation)
-                _permissionState.update { PermissionState.Granted }
+                _rootState.updatePermissionState(PermissionState.Granted)
+//                _permissionState.update { PermissionState.Granted }
             } catch (deniedAlwaysException: DeniedAlwaysException) {
-                _permissionState.update { PermissionState.DeniedAlways }
+                _rootState.updatePermissionState(PermissionState.DeniedAlways)
+//                _permissionState.update { PermissionState.DeniedAlways }
                 permissionsController.openAppSettings()
             } catch (deniedException: DeniedException) {
-                _permissionState.update { PermissionState.Denied }
+                _rootState.updatePermissionState(PermissionState.Denied)
+//                _permissionState.update { PermissionState.Denied }
                 requestPermission()
             }
         }
