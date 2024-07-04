@@ -39,6 +39,7 @@ kotlin {
 
             implementation(libs.koin.android)
             implementation(libs.ktor.client.android)
+            implementation(libs.play.services.location)
         }
         commonMain.dependencies {
             implementation(compose.runtime)
@@ -63,7 +64,6 @@ kotlin {
             implementation(libs.lifecycle.runtime.compose)
 
             implementation(libs.moko.permission)
-            implementation(libs.play.services.location)
 
             implementation(libs.datastore.preferences)
         }
