@@ -12,3 +12,7 @@ This is a Kotlin Multiplatform project targeting Android, iOS.
 
 
 Learn more about [Kotlin Multiplatform](https://www.jetbrains.com/help/kotlin-multiplatform-dev/get-started.html)…
+
+Android
+
+<img src="https://github.com/fjr619/Weather-2-KMM-Compose/assets/9444636/d3f73a35-05df-4978-aeab-9d3740ff14fd" height="500"> <img src="https://github.com/fjr619/Weather-2-KMM-Compose/assets/9444636/2e9a7151-1e54-41a6-a0c7-f5fd36627445" height="500">
