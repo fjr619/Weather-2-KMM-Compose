@@ -39,7 +39,6 @@ internal class AndroidLocationService(
 
         fusedLocationClient.lastLocation
             .addOnSuccessListener { location ->
-                println("-- getCurrentLocation")
                 if (location == null) return@addOnSuccessListener
                 continuation.resume(
                     DeviceLocation(

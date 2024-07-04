@@ -1,7 +1,18 @@
 package domain.model.forecast
 
 data class Hourly(
-    private val temperature: List<Double>,
-    private val time: List<String>,
-    private val weatherStatus: List<WeatherInfoItem>
-)
+    val temperature: List<Double>,
+    val time: List<String>,
+    val weatherStatus: List<WeatherInfoItem>
+) {
+    val weatherInfo: List<HourlyInfoItem>
+        get() {
+            return time.mapIndexed { index, time ->
+                HourlyInfoItem(
+                    temperature = temperature[index],
+                    time = time,
+                    weatherStatus = weatherStatus[index]
+                )
+            }
+        }
+}

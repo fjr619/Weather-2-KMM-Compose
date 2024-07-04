@@ -11,6 +11,7 @@ import domain.Util
 import domain.model.Response
 import domain.repository.ForecastRepository
 import domain.repository.LocationRepository
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
@@ -21,11 +22,6 @@ class RootViewModel(
     private val locationRepository: LocationRepository,
     private val forecastRepository: ForecastRepository
 ) : ViewModel() {
-//    private val _permissionState = MutableStateFlow(PermissionState.NotDetermined)
-//    val permissionState = _permissionState.asStateFlow()
-
-//    private val _permissionGranted = MutableStateFlow(false)
-//    val permissionGranted = _permissionGranted.asStateFlow()
 
     private val _rootState = MutableStateFlow(RootState())
     val rootState = _rootState.asStateFlow()
@@ -46,37 +42,27 @@ class RootViewModel(
                     permissionLocation
                 )
             )
-//            _permissionGranted.update {
-//                permissionsController.isPermissionGranted(permissionLocation)
-//            }
 
-            if (permissionsController.isPermissionGranted(permissionLocation)) {
-                println("location = ${locationRepository.getCurrentLocation()}")
-                //EXAMPLE TO USE REPOSITORY
+            if (permissionsController.isPermissionGranted(permissionLocation) && rootState.value.weatherData == null) {
                 _rootState.update {
                     it.copy(
                         isLoading = true,
                     )
                 }
+
                 forecastRepository.getForecastWeather(locationRepository.getCurrentLocation())
                     .collect { response ->
                         when (response) {
                             is Response.Success -> {
-                                //TODO setup to ui
-                                val todayDailWeatherInfo = response.data.daily.weatherInfo.find {
-                                    Util.isTodayDate(it.time)
-                                }
-
-                                println("success ${todayDailWeatherInfo}")
                                 _rootState.update {
                                     it.copy(
                                         isLoading = false,
+                                        weatherData = response.data,
                                     )
                                 }
                             }
 
                             is Response.Error -> {
-                                println("error")
                                 _rootState.update {
                                     it.copy(
                                         isLoading = false,
@@ -96,14 +82,11 @@ class RootViewModel(
             try {
                 permissionsController.providePermission(permissionLocation)
                 _rootState.updatePermissionState(PermissionState.Granted)
-//                _permissionState.update { PermissionState.Granted }
             } catch (deniedAlwaysException: DeniedAlwaysException) {
                 _rootState.updatePermissionState(PermissionState.DeniedAlways)
-//                _permissionState.update { PermissionState.DeniedAlways }
                 permissionsController.openAppSettings()
             } catch (deniedException: DeniedException) {
                 _rootState.updatePermissionState(PermissionState.Denied)
-//                _permissionState.update { PermissionState.Denied }
                 requestPermission()
             }
         }

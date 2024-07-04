@@ -8,7 +8,7 @@ import org.koin.core.module.Module
 import org.koin.core.module.dsl.factoryOf
 import org.koin.dsl.module
 
-actual fun platformModule(): Module = module{
+actual fun platformModule(): Module = module {
     factory <LocationService> { AndroidLocationService(context = androidContext()) }
     factory <PermissionsController> { PermissionsController(applicationContext = androidContext()) }
 }

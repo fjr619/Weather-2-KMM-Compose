@@ -19,6 +19,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.compose.LifecycleResumeEffect
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.lifecycle.compose.dropUnlessResumed
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
@@ -32,6 +33,8 @@ import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
 import org.koin.core.annotation.KoinExperimentalAPI
 import presentation.route.MaterialNavRoute
+import presentation.ui.daily.DailyScreen
+import presentation.ui.home.HomeScreen
 
 @OptIn(KoinExperimentalAPI::class)
 @Composable
@@ -47,12 +50,10 @@ fun RootScreen(modifier: Modifier = Modifier) {
 
     LaunchedEffect(Unit) {
         rootViewModel.onEvent(RootEvent.onRequestPermission)
-//        rootViewModel.requestPermission()
     }
 
     LifecycleResumeEffect(Unit) {
         rootViewModel.onEvent(RootEvent.onCheckPermission)
-//        rootViewModel.checkPermissionStatus()
         onPauseOrDispose { }
     }
 
@@ -130,7 +131,7 @@ fun RootContent(
                                 Text(stringResource(screen.resourceTitle))
                             },
                             selected = currentDestination?.hierarchy?.any { it.route == screen.route } == true,
-                            onClick = {
+                            onClick = dropUnlessResumed {
                                 navController.navigate(screen.route) {
                                     navController.graph.findStartDestination().route?.let {
                                         popUpTo(it) {
@@ -153,10 +154,10 @@ fun RootContent(
                 modifier = Modifier.padding(it)
             ) {
                 composable(MaterialNavRoute.Home.route) {
-                    Text("Home")
+                    HomeScreen(weather = rootState.weatherData)
                 }
                 composable(MaterialNavRoute.Daily.route) {
-                    Text("daily")
+                    DailyScreen(weather = rootState.weatherData)
                 }
             }
         }

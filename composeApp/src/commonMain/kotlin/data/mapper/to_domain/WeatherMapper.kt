@@ -16,6 +16,8 @@ class WeatherMapper(
 ) : MapperToDomain<Weather, ForecastResponse> {
     override fun mapToDomain(entity: ForecastResponse): Weather {
         return Weather(
+            latitude = entity.latitude,
+            longitude = entity.longitude,
             currentWeather = apiCurrentWeatherMapper.mapToDomain(entity.current),
             daily = apiDailyMapper.mapToDomain(entity.daily),
             hourly = apiHourlyMapper.mapToDomain(entity.hourly)
