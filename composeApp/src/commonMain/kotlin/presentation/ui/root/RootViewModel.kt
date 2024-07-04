@@ -11,16 +11,20 @@ import domain.Util
 import domain.model.Response
 import domain.repository.ForecastRepository
 import domain.repository.LocationRepository
+import domain.repository.ThemeRepository
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 class RootViewModel(
     val permissionsController: PermissionsController,
     private val locationRepository: LocationRepository,
-    private val forecastRepository: ForecastRepository
+    private val forecastRepository: ForecastRepository,
+    private val themeRepository: ThemeRepository
 ) : ViewModel() {
 
     private val _rootState = MutableStateFlow(RootState())
@@ -28,11 +32,19 @@ class RootViewModel(
 
     private val permissionLocation = Permission.LOCATION
 
+    val isDarkTheme = themeRepository.isDarkTheme()
+        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), false)
+
     fun onEvent(event: RootEvent) {
         when (event) {
             is RootEvent.onRequestPermission -> requestPermission()
             is RootEvent.onCheckPermission -> checkPermissionStatus()
+            is RootEvent.onUpdateTheme -> setTheme()
         }
+    }
+
+    private fun setTheme() = viewModelScope.launch {
+        themeRepository.setTheme()
     }
 
     private fun checkPermissionStatus() {

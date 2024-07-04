@@ -16,12 +16,14 @@ import data.remote.httpClientEngine
 import data.remote.response.forecast.ForecastResponse
 import data.repository.ForecastRepositoryImpl
 import data.repository.LocationRepositoryImpl
+import data.repository.ThemeRepositoryImpl
 import domain.model.forecast.CurrentWeather
 import domain.model.forecast.Daily
 import domain.model.forecast.Hourly
 import domain.model.forecast.Weather
 import domain.repository.ForecastRepository
 import domain.repository.LocationRepository
+import domain.repository.ThemeRepository
 import io.ktor.client.HttpClient
 import io.ktor.client.engine.HttpClientEngine
 import org.koin.core.qualifier.named
@@ -34,7 +36,7 @@ val dataModule = module{
     single<PreferencesDataSource> { PreferencesDataSourceImpl(get()) }
     factory<ForecastRepository>{ ForecastRepositoryImpl(get(), get(named("WeatherMapper"))) }
     factory<LocationRepository> { LocationRepositoryImpl(get()) }
-
+    factory<ThemeRepository> { ThemeRepositoryImpl(get()) }
 }
 
 val mapperModule = module {

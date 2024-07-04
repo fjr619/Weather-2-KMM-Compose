@@ -1,6 +1,7 @@
 package domain
 
 import androidx.compose.ui.unit.IntSize
+import androidx.datastore.preferences.core.booleanPreferencesKey
 import domain.model.forecast.WeatherInfoItem
 import kotlinx.datetime.Clock
 import kotlinx.datetime.Instant
@@ -27,6 +28,8 @@ expect val isDebug: Boolean
 //https://github.com/Kotlin/kotlinx-datetime/issues/211#issuecomment-1285745207
 expect fun LocalDateTime.format(format: String): String
 object Util {
+    val KEY_DARKTHEME = booleanPreferencesKey("isDarkTheme")
+
     private val DIRECTIONS = listOf(
         "North",
         "North East",
