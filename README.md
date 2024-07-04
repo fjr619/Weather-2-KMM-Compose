@@ -14,8 +14,10 @@ The app is built with the Model-View-ViewModel (MVVM) is its structural design p
 ## Tech Stack
 - Kotlin multiplatform
 - Compose multiplatform
-- Material 3
-- ViewModel
+- Multiplatform resource
+- Multiplatform lifecycle / viewmodel
+- Compose navigation
+- Material 3 (Custom Theme)
 - Koin
 - Ktor
 - Datastore
