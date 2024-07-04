@@ -24,6 +24,7 @@ kotlinx-datetime = "0.6.0"
 lifecycle = "2.8.0"
 moko-permission = "0.18.0"
 play-services-location = "21.3.0"
+datastore = "1.1.1"
 
 [libraries]
 desugar_jdk_libs = { module = "com.android.tools:desugar_jdk_libs", version.ref = "desugar_jdk_libs" }
@@ -62,6 +63,8 @@ navigation-compose = { module = "org.jetbrains.androidx.navigation:navigation-co
 moko-permission = { module = "dev.icerock.moko:permissions-compose", version.ref = "moko-permission" }
 
 play-services-location = { module = "com.google.android.gms:play-services-location", version.ref = "play-services-location" }
+
+datastore-preferences = { module = "androidx.datastore:datastore-preferences-core", version.ref = "datastore" }
 
 [bundles]
 ktor = [

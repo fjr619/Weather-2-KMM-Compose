@@ -64,6 +64,8 @@ kotlin {
 
             implementation(libs.moko.permission)
             implementation(libs.play.services.location)
+
+            implementation(libs.datastore.preferences)
         }
 
         iosMain.dependencies {

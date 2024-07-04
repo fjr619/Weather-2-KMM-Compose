@@ -1,5 +1,7 @@
 package di
 
+import data.local.datastore.PreferencesDataSource
+import data.local.datastore.PreferencesDataSourceImpl
 import data.mapper.to_domain.CurrentWeatherMapper
 import data.mapper.to_domain.DailyMapper
 import data.mapper.to_domain.HourlyMapper
@@ -26,11 +28,13 @@ import org.koin.core.qualifier.named
 import org.koin.dsl.module
 
 val dataModule = module{
-    factory<LocationRepository> { LocationRepositoryImpl(get()) }
     single<HttpClientEngine> { httpClientEngine() }
     single<HttpClient> { createHttpClient(get()) }
     single<RemoteDataSource> { RemoteDataSourceImpl(get()) }
+    single<PreferencesDataSource> { PreferencesDataSourceImpl(get()) }
     factory<ForecastRepository>{ ForecastRepositoryImpl(get(), get(named("WeatherMapper"))) }
+    factory<LocationRepository> { LocationRepositoryImpl(get()) }
+
 }
 
 val mapperModule = module {
